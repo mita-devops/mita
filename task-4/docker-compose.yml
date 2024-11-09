@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: mita_root@4229
+      MYSQL_DATABASE: wordpress_db
+      MYSQL_USER: csemita
+      MYSQL_PASSWORD: mita_4229@
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - wp_network
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_site
+    ports:
+      - "8000:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql_db
+      WORDPRESS_DB_NAME: wordpress_db
+      WORDPRESS_DB_USER: csemita
+      WORDPRESS_DB_PASSWORD: mita_4229@
+    depends_on:
+      - mysql
+    networks:
+      - wp_network
+
+volumes:
+  mysql_data:
+
+networks:
+  wp_network:
